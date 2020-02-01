@@ -1,6 +1,5 @@
 package com.home.training.dbconfig;
 
-
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
@@ -10,17 +9,15 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import com.home.training.security.GetSecrets;
 
 @Configuration
-public class Orcl1JdbcConfig {
+public class SqlExpressJdbcConfig {
 
 	@Bean
-    public DataSource orcl1DataSource() throws Exception {
-		
-		String passWord = new GetSecrets().GetPassword("oracle");
-		
+    public DataSource SqlExpDataSource() throws Exception {
+		String passWord = new GetSecrets().GetPassword("sqlexp");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-        dataSource.setUrl("jdbc:oracle:thin:@192.168.0.19:1521:orcl1");
-        dataSource.setUsername("HR");
+        dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        dataSource.setUrl("jdbc:sqlserver://localhost;databaseName=AdventureWorks2016");
+        dataSource.setUsername("EFCore1");
         dataSource.setPassword(passWord);
         return dataSource;
     }

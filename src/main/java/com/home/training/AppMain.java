@@ -2,15 +2,14 @@ package com.home.training;
 
 import java.util.List;
 
-import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.home.training.dbconfig.Orcl1JdbcConfig;
+import com.home.training.datagetters.OracleProcs;
+import com.home.training.datagetters.SqlExpProcs;
 import com.home.training.entities.Department;
-import com.home.training.mappers.DepartmentRowMapper;
+import com.home.training.entities.SalesOrderHeader;
 
 public class AppMain {
 	
@@ -20,19 +19,17 @@ public class AppMain {
 			final Logger logger = LoggerFactory.getLogger(AppMain.class);
 			logger.info("------ JDBCTesting Started ------");
 
-			DataSource dataSource = new Orcl1JdbcConfig().orcl1DataSource();
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			final OracleProcs oracleProcs = new OracleProcs();
+			final SqlExpProcs sqlExpProcs = new SqlExpProcs();
 
-			int result = jdbcTemplate.queryForObject("select COUNT(*) FROM HR.DEPARTMENTS", Integer.class);
-			logger.info("dept records found: " + String.valueOf(result));
-
-
-			String query = "SELECT * FROM HR.DEPARTMENTS";
-			List<Department> depts = jdbcTemplate.query(query, new DepartmentRowMapper());			
+			logger.info("dept records found: " + String.valueOf(oracleProcs.GetDepartmentCount()));
+			List<Department> depts = oracleProcs.GetDepartments();			
+			depts.forEach(dept -> {logger.info(dept.toString());} );
 			
-			depts.forEach(dept -> {
-				logger.info(dept.toString());
-			} );
+			logger.info("sales headers found: " + String.valueOf(sqlExpProcs.GetSalesOrderHeaderCount()));
+			List<SalesOrderHeader> headers = sqlExpProcs.GetSalesOrderHeaders();			
+			headers.forEach(dept -> {logger.info(dept.toString());} );
+
 			
 			logger.info("------ JDBCTesting Finished ------");
 		} catch (Exception ex) {
