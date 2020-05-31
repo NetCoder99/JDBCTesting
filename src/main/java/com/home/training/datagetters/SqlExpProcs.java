@@ -2,6 +2,8 @@ package com.home.training.datagetters;
 
 import java.util.List;
 import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.home.training.dbconfig.SqlExpressJdbcConfig;
 import com.home.training.entities.SalesOrderHeader;
@@ -22,9 +24,14 @@ public class SqlExpProcs {
 
 	public List<SalesOrderHeader> GetSalesOrderHeaders()
 	{
-		String query = "SELECT * FROM [Sales].[SalesOrderHeader]";
-		List<SalesOrderHeader> headers = jdbcTemplate.query(query, new SalesOrderHeaderMapper());			
+		BeanPropertyRowMapper<SalesOrderHeader> rowMapper = BeanPropertyRowMapper.newInstance(SalesOrderHeader.class);
+		List<SalesOrderHeader> headers = jdbcTemplate.query(SqlSelect(), rowMapper);			
 		return headers;
 	}
 
+	private String SqlSelect()
+	{
+		return "SELECT * FROM [Sales].[SalesOrderHeader]";
+	}
+	
 }

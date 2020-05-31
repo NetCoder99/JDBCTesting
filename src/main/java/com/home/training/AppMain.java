@@ -20,16 +20,16 @@ public class AppMain {
 			logger.info("------ JDBCTesting Started ------");
 
 			final OracleProcs oracleProcs = new OracleProcs();
-			final SqlExpProcs sqlExpProcs = new SqlExpProcs();
+			//final SqlExpProcs sqlExpProcs = new SqlExpProcs();
 
 			logger.info("dept records found: " + String.valueOf(oracleProcs.GetDepartmentCount()));
 			List<Department> depts = oracleProcs.GetDepartments();			
 			depts.forEach(dept -> {logger.info(dept.toString());} );
 			
-			logger.info("sales headers found: " + String.valueOf(sqlExpProcs.GetSalesOrderHeaderCount()));
-			List<SalesOrderHeader> headers = sqlExpProcs.GetSalesOrderHeaders();			
-			headers.forEach(dept -> {logger.info(dept.toString());} );
-
+			//logger.info("sales headers found: " + String.valueOf(sqlExpProcs.GetSalesOrderHeaderCount()));
+			//List<SalesOrderHeader> headers = sqlExpProcs.GetSalesOrderHeaders();			
+			//headers.forEach(dept -> {logger.info(dept.toString());} );
+			//logger.info("Total depts processed: " + String.valueOf(headers.size()));
 			
 			logger.info("------ JDBCTesting Finished ------");
 		} catch (Exception ex) {
